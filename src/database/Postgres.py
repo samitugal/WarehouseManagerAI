@@ -28,8 +28,8 @@ class Postgres(DatabaseBase):
     def disconnect(self):
         self.session.close()
 
-    def fetch_product_table(self) -> List[Product]:
-        metadata_query = """
+    def fetch_product_table(self, product_name: str) -> List[Product]:
+        query = f"""
         SELECT
             p.product_id,
             p.product_name,
@@ -47,11 +47,13 @@ class Postgres(DatabaseBase):
             suppliers s ON p.supplier_id = s.supplier_id
         JOIN
             categories c ON p.category_id = c.category_id
+        WHERE
+            p.product_name = {product_name}
         ORDER BY
             p.product_name;
         """
         
-        result = self.session.execute(text(metadata_query)).fetchall()
+        result = self.session.execute(text(query)).fetchall()
         products = [Product(**row._asdict()) for row in result]
         return products
 

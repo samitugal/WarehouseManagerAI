@@ -3,19 +3,19 @@ from .DatabaseBase import DatabaseBase
 from .Postgres import Postgres
 
 class DatabaseManager:
-    def __init__(self, config: MainConfig, database: DatabaseBaseClass):
+    def __init__(self, config: DatabaseMainConfig, database: DatabaseBase):
         self.config = MainConfig
         self.database = database
 
     @staticmethod
-    def new_instance_from_config(config: MainConfig):
+    def new_instance_from_config(config: DatabaseMainConfig):
         if config.db.database_tag == DatabaseTag.POSTGRESQL:
             return Postgres(config)
         else:
             raise NotImplementedError
 
-    def fetch_product_table(self) -> :
-        return self.database.fetch_product_table()
+    def fetch_product_table(self, product_name: str):
+        return self.database.fetch_product_table(product_name)
 
     def disconnect(self):
         self.database.disconnect()
