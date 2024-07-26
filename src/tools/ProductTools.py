@@ -15,3 +15,6 @@ def get_product_information_from_embeddings(query: str):
     embedding_instance = EmbeddingsPipeline.new_instance_from_config(config= cfg)
     result = embedding_instance.search_embeddings(query)
     return result
+
+def get_product_information_from_db(query: str):
+    pass

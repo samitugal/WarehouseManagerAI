@@ -24,13 +24,13 @@ class PostgreSQLConfig:
     port: int = omegaconf.MISSING
 
 @dataclass
-class MainConfig:
+class DatabaseMainConfig:
     db: DatabaseConfig = field(default_factory=DatabaseConfig)
     postgresql: Optional[PostgreSQLConfig] = None
 
     @staticmethod
-    def from_file(yaml_path: str) -> "MainConfig":
-        conf = OmegaConf.structured(MainConfig)
+    def from_file(yaml_path: str) -> "DatabaseMainConfig":
+        conf = OmegaConf.structured(DatabaseMainConfig)
         conf = OmegaConf.merge(conf, OmegaConf.load(yaml_path))
 
         return conf

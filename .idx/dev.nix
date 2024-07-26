@@ -8,6 +8,7 @@
     pkgs.apt
     pkgs.python311
     pkgs.python311Packages.pip
+    pkgs.docker-compose
     # pkgs.nodejs_20
     # pkgs.nodePackages.nodemon
   ];
