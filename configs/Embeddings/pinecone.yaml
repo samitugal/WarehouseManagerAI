@@ -1,0 +1,8 @@
+# pinecone.yaml
+provider:
+  provider_tag: PINECONE
+  embeddings_type: OPENAI
+pinecone:
+  index_name: product-index
+openai:
+  embeddings_model_name: text-embedding-3-small
