@@ -7,3 +7,7 @@ class ProviderAbstract(ABC):
     @abstractmethod
     def ingest_docs(self):
         pass
+    
+    @abstractmethod
+    def search_embeddings(self, query: str):
+        pass

@@ -46,6 +46,11 @@ class Pinecone(ProviderBase):
         print(f"Going to add {len(documents)} to Pinecone")
         PineconeVectorStore.from_documents(documents, self.embeddings, index_name=self.index_name)
         print("****Loading to vectorstore done ***")
+    
+    def search_embeddings(self, query: str):
+        docsearch = PineconeVectorStore(index_name=self.index_name, embedding=self.embeddings)
+        result = docsearch.search(query, search_type="similarity")
+        return result
 
 
 if __name__ == "__main__":

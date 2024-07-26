@@ -8,3 +8,5 @@ class ProviderBase(ProviderAbstract):
     def ingest_docs(self):
         pass
     
+    def search_embeddings(self, query: str):
+        pass

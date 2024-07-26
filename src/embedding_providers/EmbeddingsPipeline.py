@@ -11,10 +11,13 @@ class EmbeddingsPipeline:
         from .Pinecone import Pinecone
 
         match config.provider.provider_tag:
-            case EmbeddingsTag.Pinecone:
-                return Pipeline(config, Pinecone(config))
+            case EmbeddingsTag.PINECONE:
+                return EmbeddingsPipeline(config, Pinecone(config))
             case _:
                 raise ValueError("Invalid Embeddings tag")
 
     def ingest_docs(self):
         return self.embeddings.ingest_docs()
+
+    def search_embeddings(self, query: str):
+        return self.embeddings.search_embeddings(query)

@@ -1,0 +1,50 @@
+import os
+
+from langchain import hub
+from langchain.agents import (
+    create_react_agent,
+    AgentExecutor,
+)
+from langchain_core.tools import Tool
+from langchain_openai import ChatOpenAI
+from langchain.prompts.prompt import PromptTemplate
+from dotenv import load_dotenv
+
+from src.tools.ProductTools import get_product_information_from_embeddings
+
+load_dotenv()
+
+class ProductLookupAgent:
+    def __init__(self):
+        llm = ChatOpenAI(
+            temperature=0
+        )
+        template = """
+        You are a helpful assistant that provides information about products in inventory.
+        User wants to know information about {input}. Please answer questions about the product.
+        """
+        self.prompt_template = PromptTemplate(
+            template=template, input_variables=["input"]
+        )
+        tools_for_agent = [
+            Tool(
+                name="Search Product embeddings to get information",
+                func=get_product_information_from_embeddings,
+                description="useful for when you need get the information about Product in inventory",
+            )
+        ]
+        react_prompt = hub.pull("hwchase17/react")
+        self.agent = create_react_agent(llm=llm, tools=tools_for_agent, prompt=react_prompt)
+        self.agent_executor = AgentExecutor(agent=self.agent, tools=tools_for_agent, verbose=True)
+
+    def lookup(self, query: str) -> str:
+        result = self.agent_executor.invoke(
+            input={"input": self.prompt_template.format_prompt(input=query)}
+        )
+
+        result = result["output"]
+        return result
+
+if __name__ == "__main__":
+    agent = ProductLookupAgent()
+    print(agent.lookup("What is chai"))
