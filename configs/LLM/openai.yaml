@@ -3,4 +3,4 @@ llm:
   temperature: 0.0
 openai:
   model_name: "gpt-4-1106-preview"
-  json_mode: True
+  json_mode: False

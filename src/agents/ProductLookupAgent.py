@@ -35,7 +35,10 @@ class ProductLookupAgent:
             Tool(
                 name="Search Product database to get information like product_id, product_name, supplier_name, category_name, quantity_per_unit, unit_price, units_in_stock, units_on_order, reorder_level, discontinued",
                 func=get_product_information_from_embeddings,
-                description="useful for when you need get the information about Product in inventory. Information like product_id, product_name, supplier_name, category_name, quantity_per_unit, unit_price, units_in_stock, units_on_order, reorder_level, discontinued",
+                description="""
+                useful for when you need get the information about Product in inventory. Information like product_id, product_name, 
+                supplier_name, category_name, quantity_per_unit, unit_price, units_in_stock, units_on_order, reorder_level, discontinued
+                """,
             )
         ]
         react_prompt = hub.pull("hwchase17/react")

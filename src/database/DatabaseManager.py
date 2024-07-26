@@ -19,7 +19,3 @@ class DatabaseManager:
 
     def disconnect(self):
         self.database.disconnect()
-
-if __name__ == "__main__":
-    db = Database.new_instance_from_config(MainConfig)
-    db.close()
