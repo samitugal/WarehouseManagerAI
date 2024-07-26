@@ -1,5 +1,3 @@
-# To learn more about how to use Nix to configure your environment
-# see: https://developers.google.com/idx/guides/customize-idx-env
 { pkgs, ... }: {
   # Which nixpkgs channel to use.
   channel = "stable-23.11"; # or "unstable"
@@ -40,6 +38,7 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
+        start-env = "source .venv/bin/activate";
         # Example: install JS dependencies from NPM
         # npm-install = "npm install";
         # Open editors for the following files by default, if they exist:
@@ -47,7 +46,8 @@
       };
       # Runs when the workspace is (re)started
       onStart = {
-        start-env = "source .venv/bin/activate";
+        # Activate Python environment
+        activate-python-env = "source .venv/bin/activate";
         # Example: start a background task to watch and re-build backend code
         # watch-backend = "npm run watch-backend";
       };
