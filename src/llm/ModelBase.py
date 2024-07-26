@@ -31,26 +31,16 @@ class ModelBase(ModelAbstract):
         else:
             return prompt_template | self.client
 
-    def add_to_history(self, message: str):
-        self.history.append(message)
-
-    def get_history_prompt(self) -> str:
-        return "\n".join(self.history)
-
-    def provide_information(self, user_request: str) -> str:
+    def provide_information(self, user_request: str, chat_history: List[Dict[str, Any]] = []) -> str:
         prompt_template = load_prompt("information_provider_template")
 
         agent = ProductLookupAgent()
         search_info = agent.lookup(user_request)
 
-        history_prompt = self.get_history_prompt()
-        prompt = f"{history_prompt}\nUser: {user_request}\nAssistant:"
+        prompt = f"{chat_history}\nUser: {user_request}\nAssistant:"
 
         chain = self._create_chain(prompt_template, ["content", "local_search_information"], {})
 
         response = chain.invoke(input={"content": prompt, "local_search_information": search_info})
-
-        self.add_to_history(f"User: {user_request}")
-        self.add_to_history(f"Assistant: {response}")
 
         return response

@@ -46,12 +46,15 @@ class ProductLookupAgent:
         self.agent_executor = AgentExecutor(agent=self.agent, tools=tools_for_agent, verbose=True)
 
     def lookup(self, query: str) -> str:
-        result = self.agent_executor.invoke(
-            input={"input": self.prompt_template.format_prompt(input=query)}
-        )
+        try:
+            result = self.agent_executor.invoke(
+                input={"input": self.prompt_template.format_prompt(input=query)}
+            )
 
-        result = result["output"]
-        return result
+            result = result["output"]
+            return result
+        except Exception as e:
+            return "Agent has no idea"
 
 if __name__ == "__main__":
     agent = ProductLookupAgent()
