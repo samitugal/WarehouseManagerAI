@@ -4,7 +4,7 @@ from .Postgres import Postgres
 
 class DatabaseManager:
     def __init__(self, config: DatabaseMainConfig, database: DatabaseBase):
-        self.config = MainConfig
+        self.config = config
         self.database = database
 
     @staticmethod

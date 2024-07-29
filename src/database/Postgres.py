@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import text
 from typing import List
 
 from .DatabaseBase import DatabaseBase
@@ -29,38 +30,33 @@ class Postgres(DatabaseBase):
         self.session.close()
 
     def fetch_product_table(self, product_name: str) -> List[Product]:
-        query = f"""
-        SELECT
-            p.product_id,
-            p.product_name,
-            s.company_name AS supplier_name,
-            c.category_name,
-            p.quantity_per_unit,
-            p.unit_price,
-            p.units_in_stock,
-            p.units_on_order,
-            p.reorder_level,
-            p.discontinued
-        FROM
-            products p
-        JOIN
-            suppliers s ON p.supplier_id = s.supplier_id
-        JOIN
-            categories c ON p.category_id = c.category_id
-        WHERE
-            p.product_name = {product_name}
-        ORDER BY
-            p.product_name;
+        print(f"Fetching product table for product_name: {product_name}")
+        query = """
+            SELECT
+                p.product_id,
+                p.product_name,
+                s.company_name AS supplier_name,
+                c.category_name,
+                p.quantity_per_unit,
+                p.unit_price,
+                p.units_in_stock,
+                p.units_on_order,
+                p.reorder_level,
+                p.discontinued
+            FROM
+                products p
+            JOIN
+                suppliers s ON p.supplier_id = s.supplier_id
+            JOIN
+                categories c ON p.category_id = c.category_id
+            WHERE
+                p.product_name = :product_name
+            ORDER BY
+                p.product_name;
         """
-        
-        result = self.session.execute(text(query)).fetchall()
+        result = self.session.execute(text(query), {'product_name': product_name}).fetchall()
         products = [Product(**row._asdict()) for row in result]
         return products
 
-if __name__ == "__main__":
-    cfg = DatabaseMainConfig.from_file("/home/user/inventoryqabot/configs/Database/postgresql.yaml")
-    db = Postgres(cfg)
-    products = db.fetch_product_table()
-    for product in products:
-        print(product)
+
     
