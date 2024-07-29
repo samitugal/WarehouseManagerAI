@@ -56,7 +56,6 @@ class Postgres(DatabaseBase):
         """
 
         result = self.session.execute(text(query), {'product_name': self.clean_input_from_agent(self.fetch_product_table, product_name)}).fetchall()
-        print(result)
         products = [Product(**row._asdict()) for row in result]
         return products
 
