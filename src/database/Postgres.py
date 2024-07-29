@@ -1,5 +1,6 @@
 import os
 
+
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
@@ -30,7 +31,6 @@ class Postgres(DatabaseBase):
         self.session.close()
 
     def fetch_product_table(self, product_name: str) -> List[Product]:
-        print(f"Fetching product table for product_name: {product_name}")
         query = """
             SELECT
                 p.product_id,
@@ -50,11 +50,13 @@ class Postgres(DatabaseBase):
             JOIN
                 categories c ON p.category_id = c.category_id
             WHERE
-                p.product_name = :product_name
+                p.product_name ILIKE :product_name
             ORDER BY
                 p.product_name;
         """
-        result = self.session.execute(text(query), {'product_name': product_name}).fetchall()
+
+        result = self.session.execute(text(query), {'product_name': self.clean_input_from_agent(self.fetch_product_table, product_name)}).fetchall()
+        print(result)
         products = [Product(**row._asdict()) for row in result]
         return products
 

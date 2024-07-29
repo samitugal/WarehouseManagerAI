@@ -34,10 +34,11 @@ class ProductLookupAgent:
             ),
             Tool(
                 name="Search Product database to get information like product_id, product_name, supplier_name, category_name, quantity_per_unit, unit_price, units_in_stock, units_on_order, reorder_level, discontinued",
-                func=get_product_information_from_embeddings,
+                func=get_product_information_from_db,
                 description="""
                 useful for when you need get the information about Product in inventory. Information like product_id, product_name, 
                 supplier_name, category_name, quantity_per_unit, unit_price, units_in_stock, units_on_order, reorder_level, discontinued
+                => To use this function, only pass the product name as a string.
                 """,
             )
         ]
@@ -55,7 +56,3 @@ class ProductLookupAgent:
             return result
         except Exception as e:
             return "Agent has no idea"
-
-if __name__ == "__main__":
-    agent = ProductLookupAgent()
-    print(agent.lookup("What is the category name of chai"))

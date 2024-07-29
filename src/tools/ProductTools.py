@@ -32,9 +32,10 @@ def get_product_information_from_db(product_name: str):
         units_on_order: int
         reorder_level: int
         discontinued: bool
+        => To use this function, only pass the product name as a string.
     """
     cfg = DatabaseMainConfig.from_file(os.getenv('DATABASE_CONFIG_PATH'))
     db_instance = DatabaseManager.new_instance_from_config(config= cfg)
-    result = db_instance.fetch_product_table(product_name)
+    result = db_instance.fetch_product_table(product_name= product_name)
     return result
 

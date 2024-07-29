@@ -1,5 +1,15 @@
 import os
+import sys
 from dotenv import load_dotenv
+
+# Ensure the src directory is in the PYTHONPATH
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+load_dotenv()
+
+# Print the Python path to debug
+print("PYTHONPATH:", sys.path)
+
 from typing import Set
 
 import streamlit as st
@@ -10,17 +20,9 @@ from src.config_defs.database_config_defs import DatabaseMainConfig
 from src.config_defs.embeddings_config_defs import EmbeddingsMainConfig
 from src.config_defs.llm_config_defs import LLMMainConfig
 
-load_dotenv()
-
-database_config: DatabaseMainConfig = DatabaseMainConfig.from_file(os.getenv("DATABASE_CONNECTION_PATH"))
-print(f"Using config from {os.getenv('DATABASE_CONNECTION_PATH')}")
-
-embeddings_config: EmbeddingsMainConfig = EmbeddingsMainConfig.from_file(os.getenv("EMBEDDINGS_CONFIG_PATH"))
-print(f"Using config from {os.getenv('EMBEDDINGS_CONFIG_PATH')}")
+print(os.getenv("DATABASE_CONNECTION_PATH"))
 
 llm_config: LLMMainConfig = LLMMainConfig.from_file(os.getenv("LLM_CONFIG_PATH"))
-print(f"Using config from {os.getenv('LLM_CONFIG_PATH')}")
-
 llm_model = ModelManager.new_instance_from_config(config = llm_config)
 
 st.header("LangChain🔗 Udemy Course- Helper Bot")
