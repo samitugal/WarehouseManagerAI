@@ -22,4 +22,4 @@ class ModelManager:
                 raise ValueError("Invalid LLM tag")
 
     def provide_information(self, user_request: str, chat_history: List[Dict[str, Any]] = []) -> str:
-        return self.llm.provide_information(user_request)
+        return self.llm.provide_information(user_request, chat_history)

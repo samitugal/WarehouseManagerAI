@@ -8,7 +8,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 load_dotenv()
 
 # Print the Python path to debug
-print("PYTHONPATH:", sys.path)
+#print("PYTHONPATH:", sys.path)
 
 from typing import Set
 
@@ -16,8 +16,6 @@ import streamlit as st
 from streamlit_chat import message
 
 from src.llm.ModelManager import ModelManager
-from src.config_defs.database_config_defs import DatabaseMainConfig
-from src.config_defs.embeddings_config_defs import EmbeddingsMainConfig
 from src.config_defs.llm_config_defs import LLMMainConfig
 
 print(os.getenv("DATABASE_CONNECTION_PATH"))

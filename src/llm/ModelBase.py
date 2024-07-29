@@ -35,12 +35,11 @@ class ModelBase(ModelAbstract):
         prompt_template = load_prompt("information_provider_template")
 
         agent = ProductLookupAgent()
+        
         search_info = agent.lookup(user_request)
 
-        prompt = f"{chat_history}\nUser: {user_request}\nAssistant:"
+        chain = self._create_chain(prompt_template, ["chat_history", "local_search_information", "user_request"], {})
 
-        chain = self._create_chain(prompt_template, ["content", "local_search_information"], {})
-
-        response = chain.invoke(input={"content": prompt, "local_search_information": search_info})
+        response = chain.invoke(input={"chat_history": chat_history, "local_search_information": search_info, "user_request": user_request})
 
         return response
