@@ -1,4 +1,5 @@
 import os
+from typing import List, Dict, Any
 
 from langchain import hub
 from langchain.agents import (
@@ -22,13 +23,14 @@ class ProductLookupAgent:
         template = """
         You are a helpful assistant that provides information about products in inventory.
         User wants to know information about {input}. Please answer questions about the product.
+        There can be history about users request. Be careful about the history {chat_history}
         """
         self.prompt_template = PromptTemplate(
-            template=template, input_variables=["input"]
+            template=template, input_variables=["input","chat_history"]
         )
         tools_for_agent = [
             Tool(
-                name="Search Product embeddings to get information",
+                name="Search Product embeddings to get information like description, features, etc.",
                 func=get_product_information_from_embeddings,
                 description="useful for when you need get the information about Product in inventory. Information like description",
             ),
@@ -46,10 +48,10 @@ class ProductLookupAgent:
         self.agent = create_react_agent(llm=llm, tools=tools_for_agent, prompt=react_prompt)
         self.agent_executor = AgentExecutor(agent=self.agent, tools=tools_for_agent, verbose=True)
 
-    def lookup(self, query: str) -> str:
+    def lookup(self, query: str, chat_history: List[Dict[str, Any]] = []) -> str:
         try:
             result = self.agent_executor.invoke(
-                input={"input": self.prompt_template.format_prompt(input=query)}
+                input={"input": self.prompt_template.format_prompt(input=query, chat_history= chat_history)}
             )
 
             result = result["output"]

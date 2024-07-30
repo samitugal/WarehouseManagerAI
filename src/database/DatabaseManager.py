@@ -19,3 +19,8 @@ class DatabaseManager:
 
     def disconnect(self):
         self.database.disconnect()
+
+if __name__ == "__main__":
+    cfg = DatabaseMainConfig.from_file("configs\Database\postgresql.yaml")
+    db_manager = DatabaseManager.new_instance_from_config(cfg)
+    products = db_manager.fetch_product_table("Chai")

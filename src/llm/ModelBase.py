@@ -35,8 +35,8 @@ class ModelBase(ModelAbstract):
         prompt_template = load_prompt("information_provider_template")
 
         agent = ProductLookupAgent()
-        
-        search_info = agent.lookup(user_request)
+
+        search_info = agent.lookup(user_request, chat_history)
 
         chain = self._create_chain(prompt_template, ["chat_history", "local_search_information", "user_request"], {})
 

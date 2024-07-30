@@ -38,4 +38,3 @@ def get_product_information_from_db(product_name: str):
     db_instance = DatabaseManager.new_instance_from_config(config= cfg)
     result = db_instance.fetch_product_table(product_name= product_name)
     return result
-
