@@ -36,9 +36,9 @@ class DatabaseMainConfig:
         return conf
 
 if __name__ == "__main__":
-    cfg = MainConfig()
+    cfg = DatabaseMainConfig()
     yaml_str = OmegaConf.to_yaml(cfg)
 
-    conf = OmegaConf.structured(MainConfig)
+    conf = OmegaConf.structured(DatabaseMainConfig)
     conf = OmegaConf.merge(conf, OmegaConf.load("./configs/postgresql.yaml"))
     print(conf)

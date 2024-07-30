@@ -32,7 +32,7 @@ class LLMMainConfig:
     openai: Optional[OpenAIConfig] = None
 
     @staticmethod
-    def from_file(yaml_path: str) -> "MainConfig":
+    def from_file(yaml_path: str) -> "LLMMainConfig":
         conf = OmegaConf.structured(LLMMainConfig)
         conf = OmegaConf.merge(conf, OmegaConf.load(yaml_path))
 
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     cfg = LLMMainConfig()
     yaml_str = OmegaConf.to_yaml(cfg)
 
-    conf = OmegaConf.structured(MainConfig)
+    conf = OmegaConf.structured(LLMMainConfig)
     conf = OmegaConf.merge(conf, OmegaConf.load("./configs/openai.yaml"))
 
     print(conf)

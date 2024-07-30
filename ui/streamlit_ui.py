@@ -1,5 +1,6 @@
 import os
 import sys
+import uuid
 from dotenv import load_dotenv
 
 # Ensure the src directory is in the PYTHONPATH
@@ -17,8 +18,6 @@ from streamlit_chat import message
 
 from src.llm.ModelManager import ModelManager
 from src.config_defs.llm_config_defs import LLMMainConfig
-
-print(os.getenv("DATABASE_CONNECTION_PATH"))
 
 llm_config: LLMMainConfig = LLMMainConfig.from_file(os.getenv("LLM_CONFIG_PATH"))
 llm_model = ModelManager.new_instance_from_config(config = llm_config)
@@ -59,5 +58,6 @@ if st.session_state["chat_answers_history"]:
         message(
             user_query,
             is_user=True,
+            key=str(uuid.uuid4())
         )
         message(generated_response)
