@@ -21,8 +21,11 @@ class DatabaseBase(DatabaseAbstract):
         if input.startswith(prefix):
             value_with_quotes = input[len(prefix):]
             
-            if value_with_quotes.startswith('"') and value_with_quotes.endswith('"'):
-                return value_with_quotes[1:-1]
+            if value_with_quotes.startswith('"'):
+                if value_with_quotes.endswith('"'):
+                    return value_with_quotes[1:-1]
+                else:
+                    return value_with_quotes[1:]
             elif value_with_quotes.startswith("'") and value_with_quotes.endswith("'"):
                 return value_with_quotes[1:-1]
 

@@ -1,6 +1,7 @@
 import warnings
 
-from langchain_openai import ChatOpenAI
+import boto3
+from langchain_aws import ChatBedrock
 
 from .ModelBase import ModelBase
 from src.config_defs.llm_config_defs import LLMTag, LLMMainConfig
@@ -16,4 +17,4 @@ class Bedrock(ModelBase):
             raise ValueError("BedrockPipeline requires a BedrockConfig")
 
         bedrock = boto3.client(service_name='bedrock-runtime', region_name=config.bedrock.region_name)
-        self.client = BedrockChat(model_id=config.bedrock.model_id, client=bedrock, model_kwargs={"temperature": config.llm.temperature})
+        self.client = ChatBedrock(model_id=config.bedrock.model_id, client=bedrock, model_kwargs={"temperature": config.llm.temperature})

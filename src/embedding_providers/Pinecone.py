@@ -54,6 +54,6 @@ class Pinecone(ProviderBase):
 
 
 if __name__ == "__main__":
-    config = EmbeddingsMainConfig.from_file("/home/user/inventoryqabot/configs/Embeddings/pinecone.yaml")
+    config = EmbeddingsMainConfig.from_file("configs\Embeddings\pinecone.yaml")
     pinecone = Pinecone(config)
-    pinecone.ingest_docs()
+    print(pinecone.search_embeddings("What is Chef Anton's Cajun Seasoning"))

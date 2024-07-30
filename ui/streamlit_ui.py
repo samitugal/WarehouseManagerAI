@@ -19,10 +19,12 @@ from streamlit_chat import message
 from src.llm.ModelManager import ModelManager
 from src.config_defs.llm_config_defs import LLMMainConfig
 
+print("Using LLM_CONFIG_PATH:", os.getenv("LLM_CONFIG_PATH"))
+
 llm_config: LLMMainConfig = LLMMainConfig.from_file(os.getenv("LLM_CONFIG_PATH"))
 llm_model = ModelManager.new_instance_from_config(config = llm_config)
 
-st.header("LangChain🔗 Udemy Course- Helper Bot")
+st.header("Inventory Management Chatbot")
 if (
     "chat_answers_history" not in st.session_state and
     "user_prompt_history" not in st.session_state and

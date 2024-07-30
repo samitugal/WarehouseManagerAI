@@ -29,7 +29,7 @@ class ProductLookupAgent:
         )
         tools_for_agent = [
             Tool(
-                name="Search Product embeddings to get information like description, features, etc.",
+                name="Searches for information about embeddings and provides information or description which helps about product origin, ingredients, etc.",
                 func=get_product_information_from_embeddings,
                 description="useful for when you need get the information about Product in inventory. Information like description",
             ),
