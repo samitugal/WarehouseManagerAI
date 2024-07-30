@@ -16,14 +16,14 @@ This project is designed to assist with warehouse management through a ChatBot a
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/warehouse-management-chatbot.git
+   git clone https://github.com/samitugal/WarehouseManagerAI.git
    cd warehouse-management-chatbot
    ```
 
 2. **Set up the Python environment:**
    ```bash
-   python -m venv venv
-   source venv/bin/activate   # On Windows use `venv\Scriptsctivate`
+   python -m venv .venv
+   source .venv/bin/activate   # On Windows use `venv\Scripts\activate`
    ```
 
 3. **Install the required packages:**
@@ -31,9 +31,14 @@ This project is designed to assist with warehouse management through a ChatBot a
    pip install -r requirements.txt
    ```
 
-4. **Set up PostgreSQL:**
-   - Install PostgreSQL and create a new database.
-   - Update the database connection settings in the project configuration file.
+4. **Set up PostgreSQL using Docker:**
+   - Ensure Docker is installed and running on your system.
+   - Use the provided `docker-compose.yaml` file to set up the PostgreSQL database with a sample Northwind database.
+   - Run the following command to start the services:
+     ```bash
+     docker-compose up -d
+     ```
+   - The database connection settings in the project configuration file should be updated to match those specified in the `docker-compose.yaml` file.
 
 5. **Set up Pinecone:**
    - Sign up for Pinecone and obtain the API key.
@@ -43,7 +48,7 @@ This project is designed to assist with warehouse management through a ChatBot a
 
 1. **Run the Streamlit application:**
    ```bash
-   streamlit run app.py
+   streamlit run ui/streamlit_ui.py
    ```
 
 2. **Interacting with the ChatBot:**
@@ -55,8 +60,20 @@ This project is designed to assist with warehouse management through a ChatBot a
 
 - `app.py`: The main Streamlit application file.
 - `requirements.txt`: List of required Python packages.
-- `config.py`: Configuration file for database and API settings.
-- `agents/`: Directory containing Langchain agents and tools.
+- `configs/`: Directory for configuration definitions.
+   - `Database/`: Directory for database configration definitons.
+   - `Embeddings/`: Directory for embeddings configration definitons.
+   - `LLM/`: Directory for large language model configration definitons.
+- `data/`: Directory for data-related files.
+- `src/`: Source code directory.
+  - `agents/`: Agents used for querying data.
+  - `database/`: Database-related modules.
+  - `embedding_providers/`: Modules for embedding operations.
+  - `llm/`: Large Language Model-related modules.
+  - `prompts/`: Directory for prompt templates.
+  - `tools/`: Tools used by the agents.
+  - `utils/`: Utility functions and modules.
+  - `ui/`: Streamlit UI components.
 
 ## Contributing
 
@@ -68,6 +85,8 @@ We welcome contributions to improve the project. Please follow these steps to co
 4. Commit your changes (`git commit -m 'Add some feature'`).
 5. Push to the branch (`git push origin feature/your-feature`).
 6. Open a pull request.
+
+## Screenshots
 
 ## License
 
