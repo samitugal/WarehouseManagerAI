@@ -88,6 +88,8 @@ We welcome contributions to improve the project. Please follow these steps to co
 
 ## Screenshots
 
+![image](https://github.com/user-attachments/assets/4cdf354a-37ad-4bfc-ad74-e1a3150f6559)
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
