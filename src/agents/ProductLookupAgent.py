@@ -1,5 +1,6 @@
 import os
 from typing import List, Dict, Any
+from dotenv import load_dotenv
 
 from langchain import hub
 from langchain.agents import (
@@ -9,9 +10,9 @@ from langchain.agents import (
 from langchain_core.tools import Tool
 from langchain_openai import ChatOpenAI
 from langchain.prompts.prompt import PromptTemplate
-from dotenv import load_dotenv
 
 from src.tools.ProductTools import get_product_information_from_embeddings, get_product_information_from_db
+from src.utils.PromptLoader import load_prompt
 
 load_dotenv()
 
@@ -20,11 +21,9 @@ class ProductLookupAgent:
         llm = ChatOpenAI(
             temperature=0
         )
-        template = """
-        You are a helpful assistant that provides information about products in inventory.
-        User wants to know information about {input}. Please answer questions about the product.
-        There can be history about users request. Be careful about the history {chat_history}
-        """
+
+        template = load_prompt("agent_prompt_template")
+
         self.prompt_template = PromptTemplate(
             template=template, input_variables=["input","chat_history"]
         )
