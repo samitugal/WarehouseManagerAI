@@ -58,7 +58,7 @@ This project is designed to assist with warehouse management through a ChatBot a
 
 ## Project Structure
 
-- `app.py`: The main Streamlit application file.
+- `ui/streamlit_ui.py`: The main Streamlit application file.
 - `requirements.txt`: List of required Python packages.
 - `configs/`: Directory for configuration definitions.
    - `Database/`: Directory for database configration definitons.
