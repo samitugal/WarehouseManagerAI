@@ -1,14 +1,11 @@
 import os
-
-
+import logging
 from dotenv import load_dotenv
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql import text
 from typing import List
-
 from .DatabaseBase import DatabaseBase
-from src.config_defs.database_config_defs import DatabaseTag, DatabaseConfig, DatabaseMainConfig
+from src.config_defs.database_config_defs import DatabaseTag, DatabaseConfig
 from .data_models import Product
 
 class Postgres(DatabaseBase):
@@ -23,7 +20,7 @@ class Postgres(DatabaseBase):
 
         self.connection_string = f"postgresql://{config.postgresql.user}:{config.postgresql.password}@{config.postgresql.host}:{config.postgresql.port}/{config.postgresql.database_name}"
         
-        self.engine = create_engine(self.connection_string)
+        self.engine = create_engine(self.connection_string, echo=False)
         self.Session = sessionmaker(bind=self.engine)
         self.session = self.Session()
 
@@ -31,6 +28,7 @@ class Postgres(DatabaseBase):
         self.session.close()
 
     def fetch_product_table(self, product_name: str) -> List[Product]:
+        cleaned_product_name = self.clean_input_from_agent(self.fetch_product_table, product_name)
         query = """
             SELECT
                 p.product_id,
@@ -54,7 +52,7 @@ class Postgres(DatabaseBase):
             ORDER BY
                 p.product_name;
         """
-        print("Fetch product table result =>", self.clean_input_from_agent(self.fetch_product_table, product_name))
-        result = self.session.execute(text(query), {'product_name': self.clean_input_from_agent(self.fetch_product_table, product_name)}).fetchall()
-        products = [Product(**row._asdict()) for row in result]
+        result = self.session.execute(text(query), {'product_name': f'%{cleaned_product_name}%'})
+        products = [Product(**row._asdict()) for row in result.fetchall()]
+        logging.debug(f"Fetch product table result => {products}")
         return products

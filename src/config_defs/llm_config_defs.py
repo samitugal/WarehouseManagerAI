@@ -18,11 +18,13 @@ class LLMConfig:
 class BedrockConfig:
     region_name: str = "us-east-1"
     model_id: str = "claude-3-sonnet-20240229-v1:0"
+    model_provider: str = "bedrock"
 
 @dataclass
 class OpenAIConfig:
     llm_tag: LLMTag = LLMTag.OPENAI
     model_name: str = "gpt-4-1106-preview"
+    model_provider: str = "openai"
     json_mode: bool = True
 
 @dataclass

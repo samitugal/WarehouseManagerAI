@@ -1,4 +1,5 @@
 import inspect
+import string
 
 from .DatabaseAbstract import DatabaseAbstract
 
@@ -16,18 +17,13 @@ class DatabaseBase(DatabaseAbstract):
     def clean_input_from_agent(self, method: callable, input: str) -> str:
         method_signature = inspect.signature(method)
         param_name = next(iter(method_signature.parameters))
-        
+
         prefix = f"{param_name}="
         if input.startswith(prefix):
-            value_with_quotes = input[len(prefix):]
-            
-            if value_with_quotes.startswith('"'):
-                if value_with_quotes.endswith('"'):
-                    return value_with_quotes[1:-1]
-                else:
-                    return value_with_quotes[1:]
-            elif value_with_quotes.startswith("'") and value_with_quotes.endswith("'"):
-                return value_with_quotes[1:-1]
+            input = input[len(prefix):]
 
-        return input
-    
+        # Only remove potentially harmful characters, not all punctuation
+        harmful_chars = ";--'\"\n"
+        translator = str.maketrans('', '', harmful_chars)
+        cleaned_input = input.translate(translator).strip()
+        return cleaned_input
